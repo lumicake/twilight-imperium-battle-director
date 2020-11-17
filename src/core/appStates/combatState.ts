@@ -1,8 +1,9 @@
 import { Store, setAttackerHits, setDefenderHits } from '../store/store'
 import { AppState } from '..'
+import assignHitsAppState from './assignHitsState'
 
 const APP_STATE_NAME = 'COMBAT_STATE'
-const NEXT_APP_STATE_NAME = ''
+const NEXT_APP_STATE_NAME = assignHitsAppState.stateName
 
 export const COMBAT_ROLLS_ATTACKER = 'COMBAT_ROLLS_ATTACKER'
 export const COMBAT_ROLLS_DEFENDER = 'COMBAT_ROLLS_DEFENDER'

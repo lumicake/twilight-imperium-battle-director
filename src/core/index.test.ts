@@ -11,6 +11,10 @@ import {
 } from './appStates/combatState'
 import core from './index'
 import { createFleet } from './utils'
+import {
+  ASSIGNED_HITS_ATTACKER,
+  ASSIGNED_HITS_DEFENDER,
+} from './appStates/assignHitsState'
 
 const ATTACKER_SHIPS_QUANTITY = 5
 const ATTACKER_SHIPS_COMBAT_VALUE = 7
@@ -41,7 +45,7 @@ const DEFENDER_SHIP: ShipTuple = [
 const mockAttackerFleet = createFleet(...ATTACKER_SHIP)
 const mockDefenderFleet = createFleet(...DEFENDER_SHIP)
 
-test('should do something', () => {
+test('should run combat', () => {
   let nextStateParameters = core.beginCombat()
   expect(nextStateParameters).toContain(FLEET_SETUP_DEFENDER)
   expect(nextStateParameters).toContain(FLEET_SETUP_ATTACKER)
@@ -72,4 +76,19 @@ test('should do something', () => {
     COMBAT_ROLLS_ATTACKER,
     COMBAT_ROLLS_DEFENDER,
   ])
+
+  nextState = core.moveToNextStep({
+    [COMBAT_ROLLS_ATTACKER]: 3,
+    [COMBAT_ROLLS_DEFENDER]: 2,
+  })!
+
+  nextStateInitialData = nextState[0]
+
+  expect(nextStateInitialData.attacker).toEqual(3)
+  expect(nextStateInitialData.defender).toEqual(2)
+
+  nextStateParameters = nextState[1]
+
+  expect(nextStateParameters).toContain(ASSIGNED_HITS_ATTACKER)
+  expect(nextStateParameters).toContain(ASSIGNED_HITS_DEFENDER)
 })
